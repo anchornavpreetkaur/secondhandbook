@@ -1,0 +1,63 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Start book backend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"start",
+				"--prefix",
+				"backend"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Start book frontend",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"dev",
+				"--prefix",
+				"frontend"
+			],
+			"isBackground": true,
+			"problemMatcher": []
+		},
+		{
+			"label": "Verify backend health",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"fetch(`http://localhost:5000/api/health`).then(async r=>{console.log(`Backend HTTP ${r.status}: ${await r.text()}`);if(!r.ok)process.exitCode=1}).catch(e=>{console.error(e.message);process.exitCode=1})"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Verify frontend responds",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"fetch(`http://localhost:5173/`).then(async r=>{console.log(`Frontend HTTP ${r.status}: ${r.headers.get(`content-type`)}`);if(!r.ok)process.exitCode=1}).catch(e=>{console.error(e.message);process.exitCode=1})"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		},
+		{
+			"label": "Check backend server",
+			"type": "shell",
+			"command": "node",
+			"args": [
+				"-e",
+				"fetch(`http://localhost:5000/api/health`).then(async r=>{console.log(`Backend HTTP ${r.status}: ${await r.text()}`);if(!r.ok)process.exitCode=1}).catch(e=>{console.error(`Backend is not reachable: ${e.message}`);process.exitCode=1})"
+			],
+			"isBackground": false,
+			"problemMatcher": []
+		}
+	]
+}
